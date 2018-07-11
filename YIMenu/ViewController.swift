@@ -38,25 +38,28 @@ class ViewController: UIViewController {
 
     @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
-            view.addSubview(iconsContainerView)
-
-            let pressedLocation = gesture.location(in: view)
-
-            // transformation of the box
-            let centerX = (view.frame.width - iconsContainerView.frame.width) / 2
-            iconsContainerView.transform = CGAffineTransform(translationX: centerX, y: pressedLocation.y)
-
-            // alpha
-            iconsContainerView.alpha = 0
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1,
-                           initialSpringVelocity: 1, options: UIView.AnimationOptions.curveEaseOut, animations: {
-                            self.iconsContainerView.alpha = 1
-                            self.iconsContainerView.transform = CGAffineTransform(translationX: centerX, y: pressedLocation.y - self.iconsContainerView.frame.height)
-            })
-
+            handleGestureBegan(gesture)
         } else if gesture.state == .ended {
             iconsContainerView.removeFromSuperview()
         }
+    }
+
+    fileprivate func handleGestureBegan(_ gesture: UILongPressGestureRecognizer) {
+        view.addSubview(iconsContainerView)
+
+        let pressedLocation = gesture.location(in: view)
+
+        // transformation of the box
+        let centerX = (view.frame.width - iconsContainerView.frame.width) / 2
+        iconsContainerView.transform = CGAffineTransform(translationX: centerX, y: pressedLocation.y)
+
+        // alpha
+        iconsContainerView.alpha = 0
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1, options: UIView.AnimationOptions.curveEaseOut, animations: {
+                        self.iconsContainerView.alpha = 1
+                        self.iconsContainerView.transform = CGAffineTransform(translationX: centerX, y: pressedLocation.y - self.iconsContainerView.frame.height)
+        })
     }
 
     // hides status bar
