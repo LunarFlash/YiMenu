@@ -37,9 +37,13 @@ class ViewController: UIViewController {
     }
 
     @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
-        print("long press detected:", Date())
         if gesture.state == .began {
             view.addSubview(iconsContainerView)
+            let pressedLocation = gesture.location(in: view)
+            // transformation of the box
+            let centerX = (view.frame.width - iconsContainerView.frame.width) / 2
+            iconsContainerView.transform = CGAffineTransform(translationX: centerX, y: pressedLocation.y)
+
         } else if gesture.state == .ended {
             iconsContainerView.removeFromSuperview()
         }
